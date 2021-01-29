@@ -1,0 +1,14 @@
+{
+    "name": "chenfeizhou/laravel-work-order-golden",
+    "description": "Laravel 高灯工单中心",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "chenfeizhou",
+            "email": "jsoner.chen@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {}
+}
