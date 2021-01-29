@@ -52,7 +52,7 @@ class GoldenWorkOrder
 
         // 签名验证
         if ($sign != ApiHelper::buildSign($params, $this->config['work_order_appsecret'])) {
-            throws('Signature verification failed');
+            throw new \Exception('Signature verification failed');
         }
 
         // 执行回调
@@ -71,7 +71,7 @@ class GoldenWorkOrder
 
         $params['cx_signature'] = ApiHelper::buildSign($params, $this->config['work_order_appsecret']);
 
-        [$response] = ApiHelper::guzHttpRequest($url, $params, $method);
+        $response = ApiHelper::guzHttpRequest($url, $params, $method);
 
         if (isset($response['code']) && $response['code'] == -1) {
             throw new \Exception($response['message'] . '(code:' . $response['code'] . ')');
