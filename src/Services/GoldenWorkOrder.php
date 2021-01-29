@@ -51,7 +51,7 @@ class GoldenWorkOrder
         unset($params['sign']);
 
         // 签名验证
-        if ($sign != ApiHelper::buildSign($params, $this->config('work_order_appsecret'))) {
+        if ($sign != ApiHelper::buildSign($params, $this->config['work_order_appsecret'])) {
             throws('Signature verification failed');
         }
 
