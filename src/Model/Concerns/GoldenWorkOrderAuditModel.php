@@ -27,4 +27,18 @@ abstract class GoldenWorkOrderAuditModel extends BaseAbstractModel
         9 => self::WORK_ORDER_STATUS_REJECT ,
     ];
 
+    // 绑定的业务
+    public function bindModel()
+    {
+        return static::class;
+    }
+
+    // 工单回调处理
+    public function workOrderCallback(int $status)
+    {
+        // 审核状态
+        $this->update([
+            'work_order_status' => static::WORK_ORDER_STATUS_MAP[$status] ?? static::WORK_ORDER_STATUS_WAIT
+        ]);
+    }
 }

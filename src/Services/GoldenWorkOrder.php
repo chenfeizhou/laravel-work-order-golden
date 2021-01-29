@@ -17,12 +17,14 @@ class GoldenWorkOrder
 
     // 创建工单
     public function createWorkOrder(
+        string $bindModel,
         string $title,
         array $content
     ) {
         $params = [
-            'title'   => $title,
-            'content' => $content,
+            'bind_model' => $bindModel,
+            'title'      => $title,
+            'content'    => $content,
         ];
 
         $result = $this->request('/api/open-api/work-orders', $params);
@@ -35,10 +37,16 @@ class GoldenWorkOrder
         callable $callback,
         array $params
     ) {
+        // 绑定的模型是否存在
+        if (! class_exists($params['bind_model'])) {
+            throw new \Exception('Bind model not found');
+        }
+
         // 参数验证
         \Validator::make($params, [
             'nonce_str'     => 'required|string',
             'timestamp'     => 'required|string',
+            'bind_model'    => 'required|string',
             'work_order_id' => 'required|integer',
             'status'        => 'required|integer',
             'remark'        => 'nullable|string',

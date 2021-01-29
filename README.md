@@ -20,9 +20,9 @@ GOLDEN_WORK_ORDER_CALLBACK=
 ### 使用
 
 ```php
-	
-$title = '工单标题';
 
+$bindModel = 'App\Models\OpenApi\User';
+$title = '工单标题';
 $content = [
 	[
 	 'key' 	=> 'key1',
@@ -34,7 +34,7 @@ $content = [
 ];
 
 // 创建工单
-$workOrder = app('golden.work-order')->createWorkOrder($title, $content);
+$workOrder = app('golden.work-order')->createWorkOrder($bindModel, $title, $content);
 
 /**
  * 工单审核回调
@@ -42,6 +42,7 @@ $workOrder = app('golden.work-order')->createWorkOrder($title, $content);
  * $params = [
  *    'nonce_str'     => 'test',
  *    'timestamp'     => 'test',
+ *    'bind_model'    => 'App\Models\OpenApi\User',
  *    'work_order_id' => '1',
  *    'status'        => '1',
  *    'remark'        => 'test',
