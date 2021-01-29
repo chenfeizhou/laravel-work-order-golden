@@ -30,7 +30,36 @@ class GoldenWorkOrder
         return $result['data']['workOrder'];
     }
 
-    protected function request(string $uri, array $params, $method = 'POST')
+    // 工单审核回调
+    public function auditCallback(
+        callable $callback,
+        array $params
+    ) {
+        // 参数验证
+        \Validator::make($params, [
+            'nonce_str'     => 'required|string',
+            'timestamp'     => 'required|string',
+            'work_order_id' => 'required|integer',
+            'status'        => 'required|integer',
+            'remark'        => 'nullable|string',
+            'sign'          => 'required|string',
+        ])->validate();
+
+        $sign = $params['sign'];
+
+        // sign不参与签名
+        unset($params['sign']);
+
+        // 签名验证
+        if ($sign != ApiHelper::buildSign($params, $this->config('work_order_appsecret'))) {
+            throws('Signature verification failed');
+        }
+
+        // 执行回调
+        call_user_func($callback, $params);
+    }
+
+    protected function request(string $uri, array $params, string $method = 'POST')
     {
         $url = $this->config['work_order_host'] . $uri;
 
@@ -40,7 +69,7 @@ class GoldenWorkOrder
             'cx_nonce_str' => uniqid(),
         ];
 
-        $params['cx_signature'] = $this->buildSign($params, $this->config['work_order_appsecret']);
+        $params['cx_signature'] = ApiHelper::buildSign($params, $this->config['work_order_appsecret']);
 
         [$response] = ApiHelper::guzHttpRequest($url, $params, $method);
 
@@ -49,26 +78,5 @@ class GoldenWorkOrder
         }
 
         return $response;
-    }
-
-    // 构建签名
-    public function buildSign(array $params, string $secretKey)
-    {
-        // 键名升序
-        ksort($params);
-
-        $strs = [];
-
-        foreach ($params as $key => $value) {
-            $strs[] = $key . '=' . (is_array($value) ? json_encode($value) : $value);
-        }
-
-        // 拼接待签名字符串
-        $paramStr = implode('&', $strs);
-
-        // 构造签名
-        $signStr = base64_encode(hash_hmac('sha256', $paramStr, $secretKey, true));
-
-        return urlencode($signStr);
     }
 }

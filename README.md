@@ -33,7 +33,24 @@ $content = [
 	],
 ];
 
+// 创建工单
 $workOrder = app('golden.work-order')->createWorkOrder($title, $content);
-	
-```
 
+/**
+ * 工单审核回调
+ * 回调返回参数
+ * $params = [
+ *    'nonce_str'     => 'test',
+ *    'timestamp'     => 'test',
+ *    'work_order_id' => '1',
+ *    'status'        => '1',
+ *    'remark'        => 'test',
+ *    'sign'          => '123456',
+ * ];
+*/
+
+$response = app('golden.work-order')->auditCallback(function() use ($params) {
+    // 业务逻辑代码
+}, $params);
+
+```
