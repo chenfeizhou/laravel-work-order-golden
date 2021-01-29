@@ -1,0 +1,28 @@
+{
+    "name": "chenfeizhou/laravel-work-order-golden",
+    "description": "Laravel 高灯工单中心",
+    "type": "lib",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "chenfeizhou",
+            "email": "1114526565@qq.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "guzzlehttp/guzzle": "^7.1@dev"
+    },
+    "autoload": {
+        "psr-4": {
+            "Chenfeizhou\\WorkOrder\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Chenfeizhou\\WorkOrder\\WorkOrderServiceProvider"
+            ]
+        }
+    }
+}
