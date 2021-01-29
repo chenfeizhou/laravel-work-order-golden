@@ -1,7 +1,7 @@
 {
     "name": "chenfeizhou/laravel-work-order-golden",
     "description": "Laravel 高灯工单中心",
-    "type": "library",
+    "type": "lib",
     "license": "MIT",
     "authors": [
         {
@@ -10,5 +10,12 @@
         }
     ],
     "minimum-stability": "dev",
-    "require": {}
+    "require": {
+        "guzzlehttp/guzzle": "^6.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Chenfeizhou\\WorkOrder\\": "src/"
+        }
+    }
 }
