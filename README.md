@@ -6,6 +6,7 @@ Laravel「高灯工单中心」
 ```
 composer require chenfeizhou/laravel-work-order-golden
 php artisan vendor:publish --provider="Chenfeizhou\WorkOrder\WorkOrderServiceProvider"
+php artisan migrate
 ```
 
 ### 在项目根目录的 `.env` 文件中增加以下配置：
@@ -17,41 +18,25 @@ GOLDEN_WORK_ORDER_APPSECRET=
 GOLDEN_WORK_ORDER_CALLBACK=
 ```
 
-### 使用
-
+## 使用
 ```php
-
-$bindModel = 'App\Models\OpenApi\User';
-$title = '工单标题';
-$content = [
-	[
-	 'key' 	=> 'key1',
-	 'value' => 'value1',
-	], [
-	 'key' 	 => 'key2',
-	 'value' => 'value2',
-	],
-];
+// 模型中引用
+class Example extends Model
+{
+    use Chenfeizhou\WorkOrder\Model\Concerns\GoldenWorkOrderAuditTrait;
+    
+     protected $appends = [
+         'work_order_status',
+         'work_order_status_txt',
+     ]; 
+}
 
 // 创建工单
-$workOrder = app('golden.work-order')->createWorkOrder($bindModel, $title, $content);
+$example->createWorkOrder($title, $content);
 
-/**
- * 工单审核回调
- * 回调返回参数
- * $params = [
- *    'nonce_str'     => 'test',
- *    'timestamp'     => 'test',
- *    'bind_model'    => 'App\Models\OpenApi\User',
- *    'work_order_id' => '1',
- *    'status'        => '1',
- *    'remark'        => 'test',
- *    'sign'          => '123456',
- * ];
-*/
+// 工单审核回调方法
+use Chenfeizhou\WorkOrder\Model\GoldenWorkOrderAudit
 
-$response = app('golden.work-order')->auditCallback(function() use ($params) {
-    // 业务逻辑代码
-}, $params);
+GoldenWorkOrderAudit::auditCallback($request->all());
 
 ```
