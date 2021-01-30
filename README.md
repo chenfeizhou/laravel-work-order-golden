@@ -32,6 +32,13 @@ class Example extends Model
 }
 
 // 创建工单
+$title='test';
+$content = [
+    [
+      'key'   => '1', 
+      'value' => 'test'
+    ]
+ ];
 $example->createWorkOrder($title, $content);
 
 // 工单审核回调方法
