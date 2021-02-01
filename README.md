@@ -28,6 +28,7 @@ class Example extends Model
      protected $appends = [
          'work_order_status',
          'work_order_status_txt',
+         'work_order_is_pass',
      ]; 
 }
 
@@ -44,6 +45,7 @@ $example->createWorkOrder($title, $content);
 // 工单审核回调方法
 use Chenfeizhou\WorkOrder\Model\GoldenWorkOrderAudit
 
-GoldenWorkOrderAudit::auditCallback($request->all());
+GoldenWorkOrderAudit::auditCallback($params, function ($target) {
 
+});
 ```

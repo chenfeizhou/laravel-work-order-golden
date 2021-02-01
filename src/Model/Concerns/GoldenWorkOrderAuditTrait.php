@@ -24,7 +24,7 @@ trait GoldenWorkOrderAuditTrait
     }
 
     // 是否审核通过
-    public function isPassed()
+    public function getWorkOrderIsPassAttribute()
     {
         return $this->work_order_status == GoldenWorkOrderAudit::WORK_ORDER_STATUS_PASS ? true : false;
     }

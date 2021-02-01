@@ -5,6 +5,7 @@
 namespace Chenfeizhou\WorkOrder\Services;
 
 use Chenfeizhou\WorkOrder\Helpers\ApiHelper;
+use Chenfeizhou\WorkOrder\Model\GoldenWorkOrderAudit;
 
 class GoldenWorkOrder
 {
@@ -31,10 +32,8 @@ class GoldenWorkOrder
     }
 
     // 工单审核回调
-    public function auditCallback(
-        callable $callback,
-        array $params
-    ) {
+    public function auditCallback(array $params)
+    {
         // 参数验证
         \Validator::make($params, [
             'nonce_str'     => 'required|string',
@@ -55,8 +54,13 @@ class GoldenWorkOrder
             throw new \Exception('Signature verification failed');
         }
 
-        // 执行回调
-        call_user_func($callback, $params);
+        // 执行审核
+        $workOrderAudit = GoldenWorkOrderAudit::where('work_order_id', $params['work_order_id'])->firstOrFail();
+
+        // 更新工单审核状态
+        $workOrderAudit->update([
+            'work_order_status' => $params['status']
+        ]);
     }
 
     protected function request(string $uri, array $params, string $method = 'POST')

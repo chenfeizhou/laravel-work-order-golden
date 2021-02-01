@@ -36,21 +36,11 @@ class GoldenWorkOrderAudit extends Pivot
     }
 
     // 工单审核回调
-    public static function auditCallback(array $params)
+    public static function auditCallback(array $params, callable $callable)
     {
-        app('golden.work-order')->auditCallback(function() use ($params) {
+        $audit = app('golden.work-order')->auditCallback($params);
 
-            $workOrderAudit = GoldenWorkOrderAudit::where('work_order_id', $params['work_order_id'])->first();
-
-            if (! $workOrderAudit) {
-                return;
-            }
-
-            // 更新工单审核状态
-            $workOrderAudit->update([
-                'work_order_status' => $params['status']
-            ]);
-
-        }, $params);
+        // 执行回调
+        call_user_func($callable, $audit->target);
     }
 }
