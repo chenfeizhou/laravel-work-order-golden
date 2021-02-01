@@ -40,12 +40,19 @@ trait GoldenWorkOrderAuditTrait
 
     // 创建工单
     public function createWorkOrder(
-        int $workOrderId,
-        int $workOrderStatus = 0
+        string $title,
+        array $content
     ) {
+        // 远程调用创建工单
+        $workOrder = app('golden.work-order')->createWorkOrder(
+            $title,
+            $content
+        );
+
+        // 本地工单系统绑定
         $this->goldenWorkOrderAudits()->create([
-            'work_order_id'     => $workOrderId,
-            'work_order_status' => $workOrderStatus,
+            'work_order_id'     => $workOrder['id'],
+            'work_order_status' => GoldenWorkOrderAudit::WORK_ORDER_STATUS_WAIT,
         ]);
     }
 }
