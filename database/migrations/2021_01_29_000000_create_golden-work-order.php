@@ -32,6 +32,6 @@ class CreateGoldenWorkOrderAudit extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('golden_work_order');
+        Schema::dropIfExists('golden_work_order_audits');
     }
 }
