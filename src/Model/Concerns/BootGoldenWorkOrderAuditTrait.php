@@ -50,12 +50,14 @@ trait BootGoldenWorkOrderAuditTrait
     // 创建工单
     public function createWorkOrder(
         string $title,
-        array $content
+        array $content,
+        string $notifier = null
     ) {
         // 远程调用创建工单
         $workOrder = app('golden.work-order')->createWorkOrder(
             $title,
-            $content
+            $content,
+            $notifier
         );
 
         // 本地工单系统绑定

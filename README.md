@@ -34,7 +34,8 @@ $content = [
       'value' => 'test'
     ]
  ];
-$example->createWorkOrder($title, $content);
+$notifier = 'jsoner.chen'
+$example->createWorkOrder($title, $content, $notifier);
 
 // 工单审核回调事件监听
 Chenfeizhou\WorkOrder\Events\WorkOrderFinishedEvent::class => [
