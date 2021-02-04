@@ -6,7 +6,7 @@ Route::group([
     'prefix'        => config('golden-work-order.route.prefix'),
     'middleware'    => config('golden-work-order.rout.middleware'),
     'namespace'     => 'Chenfeizhou\WorkOrder\Controllers',
-], function (Router $router) {
+], function (Route $router) {
     // 工单回调地址
     $router->post('/notify/golden-work-order/callback', 'WorkOrderController@auditCallback');
 });
