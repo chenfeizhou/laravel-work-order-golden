@@ -28,20 +28,4 @@ class GoldenWorkOrderAudit extends Pivot
     {
         return $this->morphTo();
     }
-
-    // 设置通过
-    public function setWorkOrderPassed()
-    {
-        $this->update([
-            'work_order_status' => self::STATUS_PASSED,
-        ]);
-    }
-
-    // 设置拒绝
-    public function setWorkOrderReject()
-    {
-        $this->update([
-            'work_order_status' => self::STATUS_REJECTED,
-        ]);
-    }
 }
