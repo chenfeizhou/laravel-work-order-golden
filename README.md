@@ -38,7 +38,7 @@ $example->createWorkOrder($title, $content);
 
 // 工单审核回调事件监听
 Chenfeizhou\WorkOrder\Events\WorkOrderFinishedEvent::class => [
-  	WorkOrderFinishedListener::class,
+    WorkOrderFinishedListener::class,
 ],
 
 ```
