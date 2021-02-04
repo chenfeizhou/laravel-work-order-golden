@@ -61,6 +61,8 @@ class GoldenWorkOrder
         $workOrderAudit->update([
             'work_order_status' => $params['status']
         ]);
+
+        return $workOrderAudit;
     }
 
     protected function request(string $uri, array $params, string $method = 'POST')

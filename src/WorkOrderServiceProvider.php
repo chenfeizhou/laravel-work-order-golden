@@ -14,11 +14,12 @@ class WorkOrderServiceProvider extends BaseServiceProvider
      */
     public function boot()
     {
+        $this->loadRoutesFrom(__DIR__ . '/../routes/api.php');
+        $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
+
         $this->app->singleton('golden.work-order', function ($app) {
             return new GoldenWorkOrder($app['config']['golden-work-order']);
         });
-
-        $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
 
         if ($this->app->runningInConsole()) {
             $this->publishes([__DIR__.'/../config' => config_path()], 'golden-work-order');

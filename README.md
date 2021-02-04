@@ -23,13 +23,7 @@ GOLDEN_WORK_ORDER_CALLBACK=
 // 模型中引用
 class Example extends Model
 {
-    use Chenfeizhou\WorkOrder\Model\Concerns\GoldenWorkOrderAuditTrait;
-    
-     protected $appends = [
-         'work_order_status',
-         'work_order_status_txt',
-         'work_order_is_pass',
-     ]; 
+    use Chenfeizhou\WorkOrder\Model\Concerns\BootGoldenWorkOrderAuditTrait;
 }
 
 // 创建工单
@@ -42,10 +36,9 @@ $content = [
  ];
 $example->createWorkOrder($title, $content);
 
-// 工单审核回调方法
-use Chenfeizhou\WorkOrder\Model\GoldenWorkOrderAudit
+// 工单审核回调事件监听
+Chenfeizhou\WorkOrder\Events\WorkOrderFinishedEvent::class => [
+  	WorkOrderFinishedListener::class,
+],
 
-GoldenWorkOrderAudit::auditCallback($params, function ($target) {
-
-});
 ```

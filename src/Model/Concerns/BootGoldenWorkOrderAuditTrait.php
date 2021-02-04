@@ -3,8 +3,17 @@ namespace Chenfeizhou\WorkOrder\Model\Concerns;
 
 use Chenfeizhou\WorkOrder\Model\GoldenWorkOrderAudit;
 
-trait GoldenWorkOrderAuditTrait
+trait BootGoldenWorkOrderAuditTrait
 {
+    public function initializeBootGoldenWorkOrderAuditTrait()
+    {
+        $this->append([
+            'work_order_status',
+            'work_order_status_txt',
+            'work_order_is_pass',
+        ]);
+    }
+
     // 模型下的工单审核列表
     public function goldenWorkOrderAudits()
     {

@@ -23,24 +23,9 @@ class GoldenWorkOrderAudit extends Pivot
         self::WORK_ORDER_STATUS_PASS   => 'success',
     ];
 
-    const WORK_ORDER_STATUS_MAP = [
-        0 => self::WORK_ORDER_STATUS_WAIT ,
-        1 => self::WORK_ORDER_STATUS_PASS ,
-        9 => self::WORK_ORDER_STATUS_REJECT ,
-    ];
-
     // 获取拥有此工单的模型
     public function target()
     {
         return $this->morphTo();
-    }
-
-    // 工单审核回调
-    public static function auditCallback(array $params, callable $callable)
-    {
-        $audit = app('golden.work-order')->auditCallback($params);
-
-        // 执行回调
-        call_user_func($callable, $audit->target);
     }
 }
