@@ -4,7 +4,6 @@
  */
 namespace Chenfeizhou\WorkOrder\Services;
 
-use Chenfeizhou\WorkOrder\Helpers\ApiHelper;
 use Chenfeizhou\WorkOrder\Model\GoldenWorkOrderAudit;
 
 class GoldenWorkOrder
@@ -50,7 +49,7 @@ class GoldenWorkOrder
         unset($params['sign']);
 
         // 签名验证
-        if ($sign != ApiHelper::buildSign($params, $this->config['work_order_appsecret'])) {
+        if ($sign != buildSignature($params, $this->config['work_order_appsecret'])) {
             throw new \Exception('Signature verification failed');
         }
 
@@ -75,9 +74,9 @@ class GoldenWorkOrder
             'cx_nonce_str' => uniqid(),
         ];
 
-        $params['cx_signature'] = ApiHelper::buildSign($params, $this->config['work_order_appsecret']);
+        $params['cx_signature'] = buildSignature($params, $this->config['work_order_appsecret']);
 
-        $response = ApiHelper::guzHttpRequest($url, $params, $method);
+        [$response] = guzHttpRequest($url, $params, $method);
 
         if (isset($response['code']) && $response['code'] == -1) {
             throw new \Exception($response['message'] . '(code:' . $response['code'] . ')');
