@@ -4,8 +4,6 @@
  */
 namespace Chenfeizhou\WorkOrder\Services;
 
-use Chenfeizhou\WorkOrder\Model\GoldenWorkOrderAudit;
-
 class GoldenWorkOrder
 {
     protected $config;
@@ -30,40 +28,6 @@ class GoldenWorkOrder
         $result = $this->request('/api/open-api/work-orders', $params);
 
         return $result['data']['workOrder'];
-    }
-
-    // 工单审核回调
-    public function auditCallback(array $params)
-    {
-        // 参数验证
-        \Validator::make($params, [
-            'nonce_str'     => 'required|string',
-            'timestamp'     => 'required|string',
-            'work_order_id' => 'required|integer',
-            'status'        => 'required|integer',
-            'remark'        => 'nullable|string',
-            'sign'          => 'required|string',
-        ])->validate();
-
-        $sign = $params['sign'];
-
-        // sign不参与签名
-        unset($params['sign']);
-
-        // 签名验证
-        if ($sign != buildSignature($params, $this->config['work_order_appsecret'])) {
-            throw new \Exception('Signature verification failed');
-        }
-
-        // 执行审核
-        $workOrderAudit = GoldenWorkOrderAudit::where('work_order_id', $params['work_order_id'])->firstOrFail();
-
-        // 更新工单审核状态
-        $workOrderAudit->update([
-            'work_order_status' => $params['status']
-        ]);
-
-        return $workOrderAudit;
     }
 
     protected function request(string $uri, array $params, string $method = 'POST')

@@ -3,14 +3,14 @@ namespace Chenfeizhou\WorkOrder\Model\Concerns;
 
 use Chenfeizhou\WorkOrder\Model\GoldenWorkOrderAudit;
 
-trait BootGoldenWorkOrderAuditTrait
+trait GoldenWorkOrderAuditTrait
 {
-    public function initializeBootGoldenWorkOrderAuditTrait()
+    public function initializeGoldenWorkOrderAuditTrait()
     {
         $this->append([
-            'work_order_status',
-            'work_order_status_txt',
-            'work_order_is_pass',
+            'golden_work_order_status',
+            'golden_work_order_status_txt',
+            'golden_work_order_is_pass',
         ]);
     }
 
@@ -27,22 +27,22 @@ trait BootGoldenWorkOrderAuditTrait
     }
 
     // 获取最近审核记录工单状态
-    public function getWorkOrderStatusAttribute()
+    public function getGoldenWorkOrderStatusAttribute()
     {
-        return $this->goldenWorkOrderAudit()->work_order_status ?? GoldenWorkOrderAudit::WORK_ORDER_STATUS_WAIT;
+        return $this->goldenWorkOrderAudit()->golden_work_order_status ?? GoldenWorkOrderAudit::WORK_ORDER_STATUS_WAIT;
     }
 
     // 是否审核通过
-    public function getWorkOrderIsPassAttribute()
+    public function getGoldenWorkOrderIsPassAttribute()
     {
-        return $this->work_order_status == GoldenWorkOrderAudit::WORK_ORDER_STATUS_PASS ? true : false;
+        return $this->golden_work_order_status == GoldenWorkOrderAudit::WORK_ORDER_STATUS_PASS ? true : false;
     }
 
     // 获取最近审核记录工单状态文案
-    public function getWorkOrderStatusTxtAttribute()
+    public function getGoldenWorkOrderStatusTxtAttribute()
     {
-        $color = GoldenWorkOrderAudit::WORK_ORDER_STATUS_COLORS[$this->work_order_status];
-        $text  = GoldenWorkOrderAudit::WORK_ORDER_STATUS_TEXT[$this->work_order_status];
+        $color = GoldenWorkOrderAudit::WORK_ORDER_STATUS_COLORS[$this->golden_work_order_status];
+        $text  = GoldenWorkOrderAudit::WORK_ORDER_STATUS_TEXT[$this->golden_work_order_status];
 
         return '<span class="label label-' . $color . '">' . $text . '</span>';
     }
