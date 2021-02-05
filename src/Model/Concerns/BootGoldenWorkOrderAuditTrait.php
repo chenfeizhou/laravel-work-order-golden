@@ -29,7 +29,7 @@ trait GoldenWorkOrderAuditTrait
     // 获取最近审核记录工单状态
     public function getGoldenWorkOrderStatusAttribute()
     {
-        return $this->goldenWorkOrderAudit()->golden_work_order_status ?? GoldenWorkOrderAudit::WORK_ORDER_STATUS_WAIT;
+        return $this->goldenWorkOrderAudit()->work_order_status ?? GoldenWorkOrderAudit::WORK_ORDER_STATUS_WAIT;
     }
 
     // 是否审核通过
