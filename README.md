@@ -23,7 +23,7 @@ GOLDEN_WORK_ORDER_CALLBACK=
 // 模型中引用
 class Example extends Model
 {
-    use Chenfeizhou\WorkOrder\Model\Concerns\BootGoldenWorkOrderAuditTrait;
+    use Chenfeizhou\WorkOrder\Model\Concerns\GoldenWorkOrderAuditTrait;
 }
 
 // 创建工单
