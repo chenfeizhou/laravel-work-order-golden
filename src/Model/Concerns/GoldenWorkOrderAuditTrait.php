@@ -53,8 +53,11 @@ trait GoldenWorkOrderAuditTrait
         array $content,
         string $notifier = null
     ) {
+        $pk = base64_encode(config('golden-work-order.work_order_appkey') .'_' . $this->getTable() . '_' . $this->getKey());
+
         // 远程调用创建工单
         $workOrder = app('golden.work-order')->createWorkOrder(
+            $pk,
             $title,
             $content,
             $notifier
