@@ -10,7 +10,9 @@ trait GoldenWorkOrderAuditTrait
         $this->append([
             'golden_work_order_status',
             'golden_work_order_status_txt',
+            'golden_work_order_is_wait',
             'golden_work_order_is_pass',
+            'golden_work_order_is_reject',
         ]);
     }
 
@@ -32,10 +34,22 @@ trait GoldenWorkOrderAuditTrait
         return $this->goldenWorkOrderAudit()->work_order_status ?? GoldenWorkOrderAudit::WORK_ORDER_STATUS_WAIT;
     }
 
+    // 是否待审核
+    public function getGoldenWorkOrderIsWaitAttribute()
+    {
+        return $this->golden_work_order_status == GoldenWorkOrderAudit::WORK_ORDER_STATUS_WAIT ? true : false;
+    }
+
     // 是否审核通过
     public function getGoldenWorkOrderIsPassAttribute()
     {
         return $this->golden_work_order_status == GoldenWorkOrderAudit::WORK_ORDER_STATUS_PASS ? true : false;
+    }
+
+    // 是否审核拒绝
+    public function getGoldenWorkOrderIsRejectAttribute()
+    {
+        return $this->golden_work_order_status == GoldenWorkOrderAudit::WORK_ORDER_STATUS_REJECT ? true : false;
     }
 
     // 获取最近审核记录工单状态文案
@@ -53,11 +67,8 @@ trait GoldenWorkOrderAuditTrait
         array $content,
         string $notifier = null
     ) {
-        $pk = base64_encode(config('golden-work-order.work_order_appkey') .'_' . $this->getTable() . '_' . $this->getKey());
-
         // 远程调用创建工单
         $workOrder = app('golden.work-order')->createWorkOrder(
-            $pk,
             $title,
             $content,
             $notifier
