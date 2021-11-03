@@ -80,4 +80,31 @@ trait GoldenWorkOrderAuditTrait
             'work_order_status' => GoldenWorkOrderAudit::WORK_ORDER_STATUS_WAIT,
         ]);
     }
+
+    // 撤销工单
+    public function cancelWorkOrder()
+    {
+        $workOrderIds = [];
+
+        foreach ($this->goldenWorkOrderAudits as $order) {
+            if ($order->work_order_status == GoldenWorkOrderAudit::WORK_ORDER_STATUS_WAIT) {
+                $workOrderIds[] = $order->work_order_id;
+            }
+        }
+
+        if (! $workOrderIds) {
+            return true;
+        }
+
+        // 撤销工单系统的
+        app('golden.work-order')->cancelWorkOrder($workOrderIds);
+
+        // 修改本地系统的记录
+        $this->goldenWorkOrderAudit()
+            ->whereIn('work_order_id', $workOrderIds)
+            ->where('work_order_status', GoldenWorkOrderAudit::WORK_ORDER_STATUS_WAIT)
+            ->update([
+                'work_order_status' => GoldenWorkOrderAudit::WORK_ORDER_STATUS_CANCEL
+            ]);
+    }
 }
