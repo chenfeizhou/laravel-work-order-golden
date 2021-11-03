@@ -1,4 +1,5 @@
 <?php
+
 namespace Chenfeizhou\WorkOrder\Model\Concerns;
 
 use Chenfeizhou\WorkOrder\Model\GoldenWorkOrderAudit;
@@ -56,7 +57,7 @@ trait GoldenWorkOrderAuditTrait
     public function getGoldenWorkOrderStatusTxtAttribute()
     {
         $color = GoldenWorkOrderAudit::WORK_ORDER_STATUS_COLORS[$this->golden_work_order_status];
-        $text  = GoldenWorkOrderAudit::WORK_ORDER_STATUS_TEXT[$this->golden_work_order_status];
+        $text = GoldenWorkOrderAudit::WORK_ORDER_STATUS_TEXT[$this->golden_work_order_status];
 
         return '<span class="label label-' . $color . '">' . $text . '</span>';
     }
@@ -66,7 +67,8 @@ trait GoldenWorkOrderAuditTrait
         string $title,
         array $content,
         string $notifier = null
-    ) {
+    )
+    {
         // 远程调用创建工单
         $workOrder = app('golden.work-order')->createWorkOrder(
             $title,
@@ -84,13 +86,10 @@ trait GoldenWorkOrderAuditTrait
     // 撤销工单
     public function cancelWorkOrder()
     {
-        $workOrderIds = [];
-
-        foreach ($this->goldenWorkOrderAudits as $order) {
-            if ($order->work_order_status == GoldenWorkOrderAudit::WORK_ORDER_STATUS_WAIT) {
-                $workOrderIds[] = $order->work_order_id;
-            }
-        }
+        $workOrderIds = $this->goldenWorkOrderAudits()
+            ->where('work_order_status', GoldenWorkOrderAudit::WORK_ORDER_STATUS_WAIT)
+            ->get()
+            ->pluck('work_order_id');
 
         if (! $workOrderIds) {
             return true;
@@ -104,7 +103,7 @@ trait GoldenWorkOrderAuditTrait
             ->whereIn('work_order_id', $workOrderIds)
             ->where('work_order_status', GoldenWorkOrderAudit::WORK_ORDER_STATUS_WAIT)
             ->update([
-                'work_order_status' => GoldenWorkOrderAudit::WORK_ORDER_STATUS_CANCEL
+                'work_order_status' => GoldenWorkOrderAudit::WORK_ORDER_STATUS_CANCEL,
             ]);
     }
 }
