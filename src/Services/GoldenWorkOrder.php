@@ -30,6 +30,14 @@ class GoldenWorkOrder
         return $result['data']['workOrder'];
     }
 
+    // 撤销工单
+    public function cancelWorkOrder(array $workOrderIds)
+    {
+        $result = $this->request('/api/open-api/work-orders/cancel', ['ids' => implode(',', $workOrderIds)]);
+
+        return $result['data']['result'];
+    }
+
     protected function request(string $uri, array $params, string $method = 'POST')
     {
         $url = $this->config['work_order_host'] . $uri;

@@ -9,18 +9,21 @@ class GoldenWorkOrderAudit extends Pivot
     // 工单审批状态
     const WORK_ORDER_STATUS_WAIT = 0,
         WORK_ORDER_STATUS_PASS   = 1,
-        WORK_ORDER_STATUS_REJECT = 9;
+        WORK_ORDER_STATUS_REJECT = 9,
+        WORK_ORDER_STATUS_CANCEL = 15;
 
     const WORK_ORDER_STATUS_TEXT = [
         self::WORK_ORDER_STATUS_WAIT   => '待审批',
         self::WORK_ORDER_STATUS_PASS   => '通过',
         self::WORK_ORDER_STATUS_REJECT => '拒绝',
+        self::WORK_ORDER_STATUS_CANCEL => '撤销'
     ];
 
     const WORK_ORDER_STATUS_COLORS = [
         self::WORK_ORDER_STATUS_WAIT   => 'default',
         self::WORK_ORDER_STATUS_REJECT => 'danger',
         self::WORK_ORDER_STATUS_PASS   => 'success',
+        self::WORK_ORDER_STATUS_CANCEL => 'warning'
     ];
 
     // 获取拥有此工单的模型
