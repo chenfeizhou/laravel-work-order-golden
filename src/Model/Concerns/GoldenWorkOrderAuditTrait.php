@@ -89,7 +89,8 @@ trait GoldenWorkOrderAuditTrait
         $workOrderIds = $this->goldenWorkOrderAudits()
             ->where('work_order_status', GoldenWorkOrderAudit::WORK_ORDER_STATUS_WAIT)
             ->get()
-            ->pluck('work_order_id');
+            ->pluck('work_order_id')
+            ->toArray();
 
         if (! $workOrderIds) {
             return true;
