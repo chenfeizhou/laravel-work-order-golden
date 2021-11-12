@@ -18,13 +18,13 @@ class GoldenWorkOrder
         string $title,
         array $content,
         string $notifier = null,
-        string $submitor = null
+        ?int $workOrderId = null
     ) {
         $params = [
-            'notifier' => $notifier,
-            'title'    => $title,
-            'content'  => $content,
-            'submitor' => $submitor,
+            'notifier'             => $notifier,
+            'title'                => $title,
+            'content'              => $content,
+            'origin_work_order_id' => $workOrderId
         ];
 
         $result = $this->request('/api/open-api/work-orders', $params);

@@ -29,6 +29,15 @@ trait GoldenWorkOrderAuditTrait
         return $this->goldenWorkOrderAudits()->orderBy('id', 'desc')->first();
     }
 
+    // 获取最近一条审核通过的工单记录
+    public function passGoldenWorkOrderAudit()
+    {
+        return $this->goldenWorkOrderAudits()
+            ->where('work_order_status', GoldenWorkOrderAudit::WORK_ORDER_STATUS_PASS)
+            ->orderBy('id', 'desc')
+            ->first();
+    }
+
     // 获取最近审核记录工单状态
     public function getGoldenWorkOrderStatusAttribute()
     {
@@ -67,7 +76,7 @@ trait GoldenWorkOrderAuditTrait
         string $title,
         array $content,
         string $notifier = null,
-        string $submitor = null
+        ?int $workOrderId = null
     )
     {
         // 远程调用创建工单
@@ -75,7 +84,7 @@ trait GoldenWorkOrderAuditTrait
             $title,
             $content,
             $notifier,
-            $submitor
+            $workOrderId
         );
 
         // 本地工单系统绑定
