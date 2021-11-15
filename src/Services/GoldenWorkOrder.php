@@ -17,13 +17,15 @@ class GoldenWorkOrder
     public function createWorkOrder(
         string $title,
         array $content,
-        string $notifier = null,
-        ?int $workOrderId = null
+	string $notifier = null,
+	string $submitor = null,
+        ?int $workOrderId = 0
     ) {
         $params = [
             'notifier'             => $notifier,
             'title'                => $title,
-            'content'              => $content,
+	    'content'              => $content,
+	    'submitor'             => $submitor,
             'origin_work_order_id' => $workOrderId
         ];
 
