@@ -75,8 +75,8 @@ trait GoldenWorkOrderAuditTrait
     public function createWorkOrder(
         string $title,
         array $content,
-	    string $notifier = null,
-	    string $submitor = null,
+	string $notifier = null,
+	string $submitor = null,
         ?int $workOrderId = 0
     )
     {
@@ -84,8 +84,8 @@ trait GoldenWorkOrderAuditTrait
         $workOrder = app('golden.work-order')->createWorkOrder(
             $title,
             $content,
-	        $notifier,
-	        $submitor,
+	    $notifier,
+	    $submitor,
             $workOrderId
         );
 
