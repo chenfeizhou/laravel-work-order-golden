@@ -14,16 +14,7 @@ class GoldenWorkOrder
     }
 
     // 创建工单
-    public function createWorkOrder(
-        string $title,
-        array $content,
-        string $notifier = null
-    ) {
-        $params = [
-            'notifier' => $notifier,
-            'title'    => $title,
-            'content'  => $content,
-        ];
+    public function createWorkOrder(array $params) {
 
         $result = $this->request('/api/open-api/work-orders', $params);
 
