@@ -63,20 +63,10 @@ trait GoldenWorkOrderAuditTrait
     }
 
     // 创建工单
-    public function createWorkOrder(
-        string $title,
-        array $content,
-        string $notifier = null,
-        string $submitor = null
-    )
+    public function createWorkOrder(array $params)
     {
         // 远程调用创建工单
-        $workOrder = app('golden.work-order')->createWorkOrder(
-            $title,
-            $content,
-            $notifier,
-            $submitor
-        );
+        $workOrder = app('golden.work-order')->createWorkOrder($params);
 
         // 本地工单系统绑定
         $this->goldenWorkOrderAudits()->create([

@@ -27,15 +27,16 @@ class Example extends Model
 }
 
 // 创建工单
-$title='test';
-$content = [
-    [
-      'key'   => '1', 
-      'value' => 'test'
-    ]
- ];
-$notifier = 'jsoner.chen'
-$example->createWorkOrder($title, $content, $notifier);
+$params = [
+    'title' => 'test',
+    'content'=> [[
+        'key'   => 1,
+         'value' => 'test',
+    ]],
+    'notifier' => 'jsoner.chen',
+];
+
+$example->createWorkOrder($params);
 
 // 工单审核回调事件监听
 Chenfeizhou\WorkOrder\Events\WorkOrderFinishedEvent::class => [
